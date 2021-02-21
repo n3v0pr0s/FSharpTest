@@ -7,6 +7,16 @@ let rec input s  =
     with
         | _ -> printfn "Некорректный ввод!"; input s
 
+let rec getRange start _end =
+    try
+        if _end <= start then
+            raise (System.ArgumentException())            
+        else
+            [start.._end]
+    with
+        | _ -> printfn "Конец диапазона не может быть меньше или равен началу!"; input "Введите конец диапазона"
+            |> getRange start         
+
 
 [<EntryPoint>]
 let main argv =
@@ -16,13 +26,14 @@ let main argv =
     let endInt = 
         input "Введите конец диапазона"
 
-    let evens = 
-        EvenNumbers.getFrom [startInt..endInt]        
+    let evens =
+       getRange startInt endInt
+       |> EvenNumbers.getFrom
 
     let evensCount =
-        Seq.length evens 
+        evens |> Seq.length        
 
-    printfn "Кол-во четных элементов: %i" evensCount
+    printfn "\r\nКол-во четных элементов: %i" evensCount
     for even in evens do
         printfn "%i" even
     
