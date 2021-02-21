@@ -1,20 +1,30 @@
 ﻿open System
 
+let rec input s  = 
+    printf "%s: " s
+    try
+        Console.ReadLine() |> int
+    with
+        | _ -> printfn "Некорректный ввод!"; input s
+
+
 [<EntryPoint>]
-let main argv =  
+let main argv =
     let startInt = 
-        printf "Введите начало диапазона: "     
-        Console.ReadLine() |> int        
+        input "Введите начало диапазона"
 
     let endInt = 
-        printf "Введите конец диапазона: "
-        Console.ReadLine() |> int    
+        input "Введите конец диапазона"
 
-    let evenSeq = 
-        EvenNumbers.getFrom [startInt..endInt] 
+    let evens = 
+        EvenNumbers.getFrom [startInt..endInt]        
 
-    for i in evenSeq do
-        printfn "%i" i
+    let evensCount =
+        Seq.length evens 
+
+    printfn "Кол-во четных элементов: %i" evensCount
+    for even in evens do
+        printfn "%i" even
     
     printfn "\r\nГотово"
     Console.ReadKey() |> ignore

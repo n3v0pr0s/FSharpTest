@@ -1,6 +1,6 @@
 ﻿module EvenNumbers
 
-let isEven x = 
+let private isEven x = 
     x % 2 = 0
      
 let getFrom arr =    
